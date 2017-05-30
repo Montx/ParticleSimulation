@@ -1,7 +1,13 @@
+#extensions
 *.vcxproj
+*.vcxproj.*
 *.log
 *.tlog
 *.obj
 *.idb
 *.pdb
 *.lastbuildstate
+
+#files
+stdafx.*
+targetver.*
