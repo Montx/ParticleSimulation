@@ -2,43 +2,34 @@
 
 #include <SDL.h>
 
+#include "Screen.h"
 
-int main(int argc, char *args[])
-{
-	const int SCREEN_WIDTH = 800;
-	const int SCREEN_HEIGHT = 600;
 
-	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		std::cout << "SDL Init failed" << std::endl;
-		return 1;
-	}
+int main(int argc, char *args[]) {
 
-	SDL_Window* window = SDL_CreateWindow("Particle Simulation", 
-		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-		SCREEN_WIDTH, SCREEN_HEIGHT, 
-		SDL_WINDOW_SHOWN);
-
-	if (window == NULL) {
-		SDL_Quit();
-		return 2;
+	particleSim::Screen screen;
+	
+	if (!screen.init()) {
+		std::cout << "Error initialising SDL!" << std::endl;
 	}
 
 	bool running = true;
+
+	SDL_Event event;
 
 	while (running) {
 		// Update particles
 		// Draw particles
 		// Check for messages/events
 
-		while (SDL_PollEvents()) {
-
+		if (!screen.processEvents()) {
+			break;
 		}
 
 	}
 
-	SDL_DestroyWindow(window);
-	SDL_Quit();
-
+	screen.close();
+	
     return 0;
 }
 
