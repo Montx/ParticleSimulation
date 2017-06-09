@@ -2,7 +2,7 @@
 
 #include <memory>
 
-namespace particleSim {
+namespace particlesim {
 	
 	Screen::Screen() :
 		m_window(NULL), m_render(NULL), m_texture(NULL), m_buffer(NULL){
@@ -35,12 +35,12 @@ namespace particleSim {
 			return false;
 		}
 
-		SDL_Texture* texture = SDL_CreateTexture(m_render,
+		m_texture = SDL_CreateTexture(m_render,
 			SDL_PIXELFORMAT_RGBA8888,
 			SDL_TEXTUREACCESS_STATIC,
 			SCREEN_WIDTH, SCREEN_HEIGHT);
 
-		if (texture == NULL) {
+		if (m_texture == NULL) {
 
 			SDL_DestroyWindow(m_window);
 			SDL_DestroyRenderer(m_render);
@@ -57,11 +57,6 @@ namespace particleSim {
 			m_buffer[i] = 0xFF0000FF;
 		}
 
-		SDL_UpdateTexture(texture, NULL, m_buffer, SCREEN_WIDTH * sizeof(Uint32));
-		SDL_RenderClear(m_render);
-		SDL_RenderCopy(m_render, texture, NULL, NULL);
-		SDL_RenderPresent(m_render);
-
 		return true;
 	}
 
@@ -77,6 +72,27 @@ namespace particleSim {
 		}
 
 		return true;
+	}
+
+	void Screen::setPixel(int x, int y, Uint8 red, Uint8 green, Uint8 blue) {
+		Uint32 color = 0;
+
+		color += red;
+		color <<= 8;
+		color += green;
+		color <<= 8;
+		color += blue;
+		color <<= 8;
+		color += 0xFF;
+
+		m_buffer[(y * SCREEN_WIDTH) + x] = color;
+	}
+
+	void Screen::update() {
+		SDL_UpdateTexture(m_texture, NULL, m_buffer, SCREEN_WIDTH * sizeof(Uint32));
+		SDL_RenderClear(m_render);
+		SDL_RenderCopy(m_render, m_texture, NULL, NULL);
+		SDL_RenderPresent(m_render);
 	}
 
 	void Screen::close(){
