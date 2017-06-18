@@ -11,11 +11,12 @@ namespace particlesim {
 		const static int SCREEN_HEIGHT = 600;
 
 	private:
-		SDL_Window* m_window;
-		SDL_Renderer* m_render;
-		SDL_Texture* m_texture;
+		SDL_Window* _window;
+		SDL_Renderer* _render;
+		SDL_Texture* _texture;
 
-		Uint32* m_buffer;
+		Uint32* _buffer1;
+		Uint32* _buffer2;
 
 	public:
 		Screen();
@@ -23,6 +24,8 @@ namespace particlesim {
 		bool init();
 		bool processEvents();
 
+		void boxBlur();
+		void clear();
 		void close();
 		void setPixel(int x, int y, Uint8 red, Uint8 green, Uint8 blue);
 		void update();

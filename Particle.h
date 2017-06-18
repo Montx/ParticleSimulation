@@ -4,12 +4,21 @@ namespace particlesim {
 
 	class Particle {
 
+	public:
+		double x;
+		double y;
+
 	private:
-		double m_x;
-		double m_y;
+		double _speed;
+		double _direction;
 
 	public:
 		Particle();
 		virtual ~Particle();
+
+		void update(int interval);
+
+	private:
+		void init();
 	};
 }
